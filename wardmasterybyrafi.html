@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Ward Mastery created by Rafi</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Roboto, sans-serif; background: #f1f5f9; padding-bottom: 140px; color: #0f172a; }
+        .header { background: #0f2b3d; color: white; padding: 18px 16px; text-align: center; position: sticky; top: 0; z-index: 100; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+        .header h1 { font-size: 1.4rem; letter-spacing: -0.3px; }
+        .header p { font-size: 0.7rem; opacity: 0.85; margin-top: 4px; }
+        
+        .tabs { display: flex; overflow-x: auto; background: white; padding: 10px 12px; gap: 8px; border-bottom: 1px solid #e2e8f0; position: sticky; top: 72px; z-index: 99; }
+        .tab { padding: 8px 20px; border-radius: 40px; font-weight: 600; font-size: 0.8rem; background: #f1f5f9; color: #334155; cursor: pointer; white-space: nowrap; transition: 0.2s; }
+        .tab.active { background: #2c7da0; color: white; box-shadow: 0 2px 8px rgba(44,125,160,0.3); }
+
+        .container { max-width: 1000px; margin: 0 auto; padding: 20px 16px; }
+        .panel { display: none; animation: fade 0.2s ease; }
+        .panel.active-panel { display: block; }
+        @keyframes fade { from { opacity: 0; transform: translateY(5px);} to { opacity: 1; transform: translateY(0);} }
+
+        .section-title { font-size: 0.7rem; font-weight: 800; text-transform: uppercase; color: #2c7da0; background: #e6f0f5; display: inline-block; padding: 4px 16px; border-radius: 30px; margin: 15px 0 12px 0; letter-spacing: 1px; }
+        .grid-buttons { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 10px; margin-bottom: 20px; }
+        .choice-btn { background: white; border: 1px solid #cbd5e1; border-radius: 34px; padding: 10px 12px; font-size: 0.8rem; font-weight: 500; cursor: pointer; text-align: center; color: #1e293b; transition: 0.2s; }
+        .choice-btn.active { background: #2c7da0; border-color: #2c7da0; color: white; }
+
+        .radio-group { display: flex; flex-wrap: wrap; gap: 12px; background: #ffffffcc; padding: 12px 14px; border-radius: 28px; margin-bottom: 18px; }
+        .radio-opt { background: #f1f5f9; padding: 6px 18px; border-radius: 40px; font-size: 0.8rem; cursor: pointer; border: 1px solid #e2e8f0; }
+        .radio-opt.selected { background: #2a9d8f; color: white; border-color: #2a9d8f; }
+
+        .group-label { font-weight: 700; margin: 12px 0 6px 10px; color: #1e2a3a; border-left: 4px solid #2c7da0; padding-left: 12px; }
+        
+        .dx-card { background: white; border-radius: 20px; padding: 18px; margin-bottom: 14px; border-left: 6px solid #2a9d8f; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
+        .score-badge { float: right; background: #2c7da0; color: white; padding: 2px 10px; border-radius: 10px; font-size: 0.7rem; font-weight: bold; }
+        .system-tag { font-size: 0.65rem; font-weight: 900; background: #e2e8f0; padding: 2px 8px; border-radius: 10px; color: #475569; margin-bottom: 5px; display: inline-block; text-transform: uppercase; }
+        .dx-title { font-weight: 800; font-size: 1.1rem; color: #0c4a6e; }
+        .dx-reason { font-size: 0.85rem; background: #f8fafc; padding: 8px 12px; border-radius: 14px; margin-top: 8px; color: #2c3e50; }
+
+        .disease-ref-card { background: #fff; border: 1px solid #e2e8f0; border-radius: 15px; padding: 15px; margin-bottom: 10px; border-left: 4px solid #cbd5e1; }
+        .disease-name { font-weight: bold; color: #2c7da0; margin-bottom: 5px; }
+        .disease-details { font-size: 0.8rem; color: #64748b; line-height: 1.4; }
+
+        .footer { position: fixed; bottom: 0; left: 0; right: 0; max-width: 1000px; margin: 0 auto; background: rgba(255,255,255,0.96); backdrop-filter: blur(12px); display: flex; gap: 12px; padding: 12px 20px; border-top: 1px solid #e2e8f0; z-index: 200; }
+        .btn-diagnose { flex: 2; background: #2a9d8f; border: none; color: white; font-weight: 800; padding: 14px; border-radius: 44px; font-size: 1rem; cursor: pointer; }
+        .btn-reset { flex: 1; background: #eef2ff; border: none; border-radius: 44px; font-weight: 600; cursor: pointer; }
+    </style>
+</head>
+<body>
+
+<div class="header">
+    <h1>🩺 Ward Mastery created by Rafi</h1>
+    <p>Clinically Merged Disease Database | Professor ABM Abdullah</p>
+</div>
+
+<div class="tabs">
+    <div class="tab active" data-tab="chief">📋 1. Symptoms</div>
+    <div class="tab" data-tab="exam">🩺 2. Examination</div>
+    <div class="tab" data-tab="past">📜 3. History</div>
+    <div class="tab" data-tab="systemic">🎯 4. Focus</div>
+    <div class="tab" data-tab="diseases">📚 5. Library</div>
+</div>
+
+<div class="container">
+    <div id="chief-panel" class="panel active-panel">
+        <div class="section-title">✔️ Symptoms</div>
+        <div id="chief-buttons" class="grid-buttons"></div>
+    </div>
+
+    <div id="exam-panel" class="panel">
+        <div class="section-title">🔍 GPE & Signs</div>
+        <div class="group-label">🧑 Appearance</div><div id="appearance-radios" class="radio-group"></div>
+        <div class="group-label">🛌 Decubitus</div><div id="decubitus-radios" class="radio-group"></div>
+        <div class="group-label">🩸 Clinical Signs</div><div id="systemic-signs" class="grid-buttons"></div>
+    </div>
+
+    <div id="past-panel" class="panel">
+        <div class="section-title">📜 Medical Background</div>
+        <div id="past-buttons" class="grid-buttons"></div>
+    </div>
+
+    <div id="systemic-panel" class="panel">
+        <div class="section-title">🎯 Targeted Analysis</div>
+        <div id="system-focus-buttons" class="grid-buttons"></div>
+    </div>
+
+    <div id="diseases-panel" class="panel">
+        <div class="section-title">📖 Full Disease Reference Library</div>
+        <div id="disease-library"></div>
+    </div>
+
+    <div id="results-area" style="margin-top: 25px; padding-bottom: 20px;"></div>
+</div>
+
+<div class="footer">
+    <button class="btn-reset" id="resetAllBtn">⟳ Reset</button>
+    <button class="btn-diagnose" id="diagnoseBtn">🧠 Score & Diagnose</button>
+</div>
+
+<script>
+    let selectedChiefs = new Set();
+    let selectedSystemicSigns = new Set();
+    let selectedPast = new Set();
+    let gpe = { appearance: "", decubitus: "" };
+    let selectedSystem = "All Systems (Integrated)";
+
+    const chiefList = ["Fever", "Shortness of breath", "Cough", "Chronic cough", "Sputum production", "Haemoptysis", "Chest pain", "General swelling", "Leg swelling", "Abdomen pain", "Joint pain", "Weight loss", "Night sweats", "Palpitation", "Vomiting", "Oliguria", "Hematuria", "Polyuria", "Lethargy", "Skin rash", "Night sweats", "Loose motion", "Dysphagia", "Bleeding signs"];
+    const systemicSignsList = ["Anemia", "Jaundice", "Cyanosis", "Clubbing", "Koilonychia", "Leukonychia", "Edema", "Raised JVP", "Thyromegaly", "Pigmentation", "Lymphadenopathy", "Splenomegaly", "Hepatomegaly", "Ascites", "Pleural rub", "Consolidation signs"];
+    const pastList = ["Hypertension", "Diabetes Mellitus", "Tuberculosis", "Jaundice (past)", "Rheumatic fever", "IHD history", "Smoking", "COPD/Asthma History"];
+    const systemOptions = ["All Systems (Integrated)", "Respiratory", "CVS", "Renal", "Abdomen/GI", "Rheumatology", "Hematology", "Infectious"];
+
+    // COMPLETE UNIFIED LIBRARY - NO REMOVALS
+    const diseaseData = [
+        // RESPIRATORY
+        { system: "Respiratory", name: "COPD", symptoms: ["Shortness of breath", "Chronic cough", "Sputum production"], signs: ["Cyanosis", "Clubbing", "Raised JVP"], past: ["Smoking"] },
+        { system: "Respiratory", name: "Bronchial Asthma", symptoms: ["Shortness of breath", "Cough"], signs: [], past: ["COPD/Asthma History"] },
+        { system: "Respiratory", name: "Bronchiectasis", symptoms: ["Chronic cough", "Sputum production", "Haemoptysis"], signs: ["Clubbing", "Cyanosis"], past: ["Tuberculosis"] },
+        { system: "Respiratory", name: "Pleural Effusion", symptoms: ["Chest pain", "Shortness of breath", "Cough", "Fever"], signs: ["Cyanosis"], past: ["Tuberculosis"] },
+        { system: "Respiratory", name: "Pneumonia", symptoms: ["Fever", "Cough", "Chest pain"], signs: ["Consolidation signs", "Cyanosis"], past: [] },
+        { system: "Respiratory", name: "Consolidation", symptoms: ["Fever", "Cough", "Chest pain"], signs: ["Consolidation signs"], past: [] },
+        { system: "Respiratory", name: "Lung Abscess", symptoms: ["Fever", "Cough", "Sputum production"], signs: ["Clubbing", "Anemia"], past: [] },
+        { system: "Respiratory", name: "Pneumothorax", symptoms: ["Sudden chest pain", "Shortness of breath"], signs: ["Cyanosis", "Raised JVP"], past: ["COPD/Asthma History"] },
+        { system: "Respiratory", name: "Bronchial Carcinoma", symptoms: ["Chronic cough", "Haemoptysis", "Weight loss"], signs: ["Clubbing", "Lymphadenopathy", "Anemia"], past: ["Smoking"] },
+        
+        // CVS
+        { system: "CVS", name: "Mitral Stenosis & Regurgitation", symptoms: ["Shortness of breath", "Palpitation", "Haemoptysis"], signs: ["Anemia", "Raised JVP"], past: ["Rheumatic fever"] },
+        { system: "CVS", name: "Aortic Stenosis & Regurgitation", symptoms: ["Chest pain", "Shortness of breath", "Palpitation"], signs: ["Edema"], past: ["Rheumatic fever", "Hypertension"] },
+        { system: "CVS", name: "Angina / MI", symptoms: ["Chest pain", "Vomiting", "Shortness of breath"], signs: [], past: ["Hypertension", "Diabetes Mellitus", "IHD history"] },
+        { system: "CVS", name: "CCF (Heart Failure)", symptoms: ["Shortness of breath", "Leg swelling", "General swelling"], signs: ["Edema", "Raised JVP", "Cyanosis"], past: ["Hypertension", "IHD history"] },
+        
+        // RENAL
+        { system: "Renal", name: "Nephrotic Syndrome", symptoms: ["General swelling", "Leg swelling", "Oliguria"], signs: ["Edema", "Leukonychia", "Ascites"], past: ["Diabetes Mellitus"] },
+        { system: "Renal", name: "CKD", symptoms: ["General swelling", "Vomiting", "Lethargy", "Polyuria"], signs: ["Anemia", "Pigmentation", "Edema"], past: ["Hypertension", "Diabetes Mellitus"] },
+        { system: "Renal", name: "Glomerulonephritis", symptoms: ["General swelling", "Hematuria", "Oliguria"], signs: ["Edema", "Anemia"], past: [] },
+
+        // ABDO / GIT
+        { system: "Abdomen/GI", name: "CLD (Chronic Liver Disease)", symptoms: ["General swelling", "Abdomen pain", "Weight loss"], signs: ["Jaundice", "Ascites", "Splenomegaly", "Leukonychia"], past: ["Jaundice (past)"] },
+        { system: "Abdomen/GI", name: "Liver Cirrhosis", symptoms: ["Abdomen pain", "General swelling", "Vomiting"], signs: ["Ascites", "Splenomegaly", "Jaundice"], past: ["Jaundice (past)"] },
+        { system: "Abdomen/GI", name: "IBD", symptoms: ["Abdomen pain", "Loose motion", "Weight loss"], signs: ["Anemia", "Clubbing"], past: [] },
+        { system: "Abdomen/GI", name: "Acute Viral Hepatitis", symptoms: ["Fever", "Vomiting", "Abdomen pain"], signs: ["Jaundice", "Hepatomegaly"], past: [] },
+        
+        // RHEUMATOLOGY
+        { system: "Rheumatology", name: "Rheumatoid Arthritis", symptoms: ["Joint pain", "Lethargy"], signs: ["Anemia", "Lymphadenopathy"], past: [] },
+        { system: "Rheumatology", name: "Systemic Sclerosis", symptoms: ["Dysphagia", "Shortness of breath"], signs: ["Pigmentation", "Anemia"], past: [] },
+        { system: "Rheumatology", name: "SLE", symptoms: ["Joint pain", "Fever", "Skin rash"], signs: ["Anemia", "Edema"], past: [] },
+
+        // HEMATOLOGY
+        { system: "Hematology", name: "CML / CLL", symptoms: ["Abdomen pain", "Weight loss", "Lethargy"], signs: ["Splenomegaly", "Anemia", "Lymphadenopathy"], past: [] },
+        { system: "Hematology", name: "Lymphoma", symptoms: ["Fever", "Night sweats", "Weight loss"], signs: ["Lymphadenopathy", "Splenomegaly", "Anemia"], past: [] },
+        { system: "Hematology", name: "Acute Leukemia", symptoms: ["Fever", "Bleeding signs", "Lethargy"], signs: ["Anemia", "Hepatomegaly", "Splenomegaly"], past: [] },
+        { system: "Hematology", name: "Aplastic Anemia", symptoms: ["Fever", "Bleeding signs", "Lethargy"], signs: ["Anemia", "Pigmentation"], past: [] },
+
+        // INFECTIOUS
+        { system: "Infectious", name: "Dengue", symptoms: ["Fever", "Joint pain", "Vomiting", "Bleeding signs"], signs: ["Skin rash"], past: [] },
+        { system: "Infectious", name: "Enteric Fever", symptoms: ["Fever", "Abdomen pain", "Vomiting"], signs: ["Hepatomegaly", "Splenomegaly"], past: [] }
+    ];
+
+    function renderToggleButtons(id, list, set) {
+        const container = document.getElementById(id); container.innerHTML = "";
+        list.forEach(item => {
+            const btn = document.createElement("button"); btn.textContent = item;
+            btn.className = "choice-btn" + (set.has(item) ? " active" : "");
+            btn.onclick = () => { if(set.has(item)) set.delete(item); else set.add(item); renderToggleButtons(id, list, set); };
+            container.appendChild(btn);
+        });
+    }
+
+    function renderSystemButtons() {
+        const container = document.getElementById("system-focus-buttons"); container.innerHTML = "";
+        systemOptions.forEach(opt => {
+            const btn = document.createElement("button"); btn.textContent = opt;
+            btn.className = "choice-btn" + (selectedSystem === opt ? " active" : "");
+            btn.onclick = () => { selectedSystem = opt; renderSystemButtons(); };
+            container.appendChild(btn);
+        });
+    }
+
+    function renderRadioGroup(id, options, key) {
+        const container = document.getElementById(id); container.innerHTML = "";
+        options.forEach(opt => {
+            const span = document.createElement("span"); span.textContent = opt;
+            span.className = "radio-opt" + (gpe[key] === opt ? " selected" : "");
+            span.onclick = () => { gpe[key] = opt; renderRadioGroup(id, options, key); };
+            container.appendChild(span);
+        });
+    }
+
+    function generateDiagnosis() {
+        const chiefs = Array.from(selectedChiefs);
+        const signs = Array.from(selectedSystemicSigns);
+        const pasts = Array.from(selectedPast);
+        const resultsDiv = document.getElementById("results-area");
+        let matches = [];
+
+        diseaseData.forEach(d => {
+            if (selectedSystem === "All Systems (Integrated)" || d.system === selectedSystem) {
+                let score = 0;
+                let matchedItems = [];
+                d.symptoms.forEach(s => { if(chiefs.includes(s)) { score += 3; matchedItems.push(s); } });
+                d.signs.forEach(s => { if(signs.includes(s)) { score += 2; matchedItems.push(s); } });
+                d.past.forEach(p => { if(pasts.includes(p)) { score += 1.5; matchedItems.push(p); } });
+
+                if (score >= 2.5) matches.push({ ...d, score: score, matchedItems: matchedItems });
+            }
+        });
+
+        resultsDiv.innerHTML = `<h3>Scored Probable Diseases:</h3>`;
+        if(matches.length === 0) {
+            resultsDiv.innerHTML += `<div class="dx-card"><div class="dx-title">No direct matches.</div><div class="dx-reason">Expand your symptom selection.</div></div>`;
+        } else {
+            matches.sort((a,b) => b.score - a.score).forEach(m => {
+                resultsDiv.innerHTML += `
+                    <div class="dx-card">
+                        <span class="score-badge">Points: ${m.score}</span>
+                        <span class="system-tag">${m.system}</span>
+                        <div class="dx-title">${m.name}</div>
+                        <div class="dx-reason">Matched: ${m.matchedItems.join(", ")}</div>
+                    </div>`;
+            });
+        }
+        resultsDiv.scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function renderLibrary() {
+        const lib = document.getElementById("disease-library"); lib.innerHTML = "";
+        systemOptions.slice(1).forEach(sys => {
+            const sysGroup = diseaseData.filter(d => d.system === sys);
+            if(sysGroup.length > 0) {
+                const head = document.createElement("div"); head.className = "group-label"; head.textContent = sys;
+                lib.appendChild(head);
+                sysGroup.forEach(d => {
+                    const card = document.createElement("div"); card.className = "disease-ref-card";
+                    card.innerHTML = `<div class="disease-name">${d.name}</div><div class="disease-details"><b>Markers:</b> ${d.symptoms.join(", ")}</div>`;
+                    lib.appendChild(card);
+                });
+            }
+        });
+    }
+
+    window.onload = () => {
+        renderToggleButtons("chief-buttons", chiefList, selectedChiefs);
+        renderToggleButtons("systemic-signs", systemicSignsList, selectedSystemicSigns);
+        renderToggleButtons("past-buttons", pastList, selectedPast);
+        renderSystemButtons();
+        renderRadioGroup("appearance-radios", ["Ill looking", "Normal", "Anemic"], "appearance");
+        renderRadioGroup("decubitus-radios", ["Comfortable", "Orthopnea"], "decubitus");
+        renderLibrary();
+
+        document.querySelectorAll('.tab').forEach(tab => {
+            tab.onclick = () => {
+                document.querySelectorAll('.tab, .panel').forEach(el => el.classList.remove('active', 'active-panel'));
+                tab.classList.add('active');
+                document.getElementById(tab.dataset.tab + '-panel').classList.add('active-panel');
+            };
+        });
+
+        document.getElementById("diagnoseBtn").onclick = generateDiagnosis;
+        document.getElementById("resetAllBtn").onclick = () => location.reload();
+    };
+</script>
+</body>
+</html>
