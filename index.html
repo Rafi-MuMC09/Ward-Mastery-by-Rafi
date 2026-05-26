@@ -50,7 +50,7 @@
 
 <div class="header">
     <h1>🩺 Ward Mastery created by Rafi</h1>
-    <p>Clinically Merged Disease Database | Professor ABM Abdullah</p>
+    <p>Clinically Merged Disease Database | Long Case-ABM Abdullah</p>
 </div>
 
 <div class="tabs">
@@ -104,7 +104,7 @@
     let gpe = { appearance: "", decubitus: "" };
     let selectedSystem = "All Systems (Integrated)";
 
-    const chiefList = ["Fever", "Shortness of breath", "Cough", "Chronic cough", "Sputum production", "Haemoptysis", "Chest pain", "General swelling", "Leg swelling", "Abdomen pain", "Joint pain", "Weight loss", "Night sweats", "Palpitation", "Vomiting", "Oliguria", "Hematuria", "Polyuria", "Lethargy", "Skin rash", "Night sweats", "Loose motion", "Dysphagia", "Bleeding signs"];
+    const chiefList = ["Fever", "Shortness of breath", "Cough", "Chronic cough", "Sputum production", "Haemoptysis", "Chest pain", "General swelling", "Leg swelling", "Abdomen pain", "Joint pain", "Weight loss", "Night sweats", "Palpitation", "Vomiting", "Oliguria", "Hematuria", "Polyuria","Frothy Urine", "Lethargy", "Skin rash", "Night sweats", "Loose motion", "Dysphagia", "Bleeding signs"];
     const systemicSignsList = ["Anemia", "Jaundice", "Cyanosis", "Clubbing", "Koilonychia", "Leukonychia", "Edema", "Raised JVP", "Thyromegaly", "Pigmentation", "Lymphadenopathy", "Splenomegaly", "Hepatomegaly", "Ascites", "Pleural rub", "Consolidation signs"];
     const pastList = ["Hypertension", "Diabetes Mellitus", "Tuberculosis", "Jaundice (past)", "Rheumatic fever", "IHD history", "Smoking", "COPD/Asthma History"];
     const systemOptions = ["All Systems (Integrated)", "Respiratory", "CVS", "Renal", "Abdomen/GI", "Rheumatology", "Hematology", "Infectious"];
@@ -129,9 +129,9 @@
         { system: "CVS", name: "CCF (Heart Failure)", symptoms: ["Shortness of breath", "Leg swelling", "General swelling"], signs: ["Edema", "Raised JVP", "Cyanosis"], past: ["Hypertension", "IHD history"] },
         
         // RENAL
-        { system: "Renal", name: "Nephrotic Syndrome", symptoms: ["General swelling", "Leg swelling", "Oliguria"], signs: ["Edema", "Leukonychia", "Ascites"], past: ["Diabetes Mellitus"] },
+        { system: "Renal", name: "Nephrotic Syndrome", symptoms: ["General swelling", "Leg swelling", "Oliguria", "Frothy Urine"], signs: ["Edema", "Leukonychia", "Ascites"], past: ["Diabetes Mellitus"] },
         { system: "Renal", name: "CKD", symptoms: ["General swelling", "Vomiting", "Lethargy", "Polyuria"], signs: ["Anemia", "Pigmentation", "Edema"], past: ["Hypertension", "Diabetes Mellitus"] },
-        { system: "Renal", name: "Glomerulonephritis", symptoms: ["General swelling", "Hematuria", "Oliguria"], signs: ["Edema", "Anemia"], past: [] },
+        { system: "Renal", name: "Glomerulonephritis", symptoms: ["General swelling", "Hematuria", "Oliguria"], signs: ["Edema", "Anemia"], past: ["Hypertension"] },
 
         // ABDO / GIT
         { system: "Abdomen/GI", name: "CLD (Chronic Liver Disease)", symptoms: ["General swelling", "Abdomen pain", "Weight loss"], signs: ["Jaundice", "Ascites", "Splenomegaly", "Leukonychia"], past: ["Jaundice (past)"] },
